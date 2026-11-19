@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using Core.Serialization;
 
 namespace Core.Models
 {
-    public class Posetilac
+    public class Posetilac : ISerializable
     {
         public int Id { get; set; }
         public string Ime { get; set; } = string.Empty;
@@ -38,6 +40,39 @@ namespace Core.Models
             TrenutnaGodinaClanstva = trenutnaGodinaClanstva;
             Status = status;
             ProsecnaOcena = prosecnaOcena;
+        }
+
+        public string[] ToCSV()
+        {
+            return new string[]
+            {
+                Id.ToString(),
+                Ime,
+                Prezime,
+                DatumRodjenja.ToString("dd.MM.yyyy.", CultureInfo.InvariantCulture),
+                AdresaId.ToString(),
+                KontaktTelefon,
+                Email,
+                BrojClanskeKarte,
+                TrenutnaGodinaClanstva.ToString(),
+                Status.ToString(),
+                ProsecnaOcena.ToString(CultureInfo.InvariantCulture)
+            };
+        }
+
+        public void FromCSV(string[] values)
+        {
+            Id = int.Parse(values[0]);
+            Ime = values[1];
+            Prezime = values[2];
+            DatumRodjenja = DateTime.ParseExact(values[3], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
+            AdresaId = int.Parse(values[4]);
+            KontaktTelefon = values[5];
+            Email = values[6];
+            BrojClanskeKarte = values[7];
+            TrenutnaGodinaClanstva = int.Parse(values[8]);
+            Status = Enum.Parse<StatusPosetioca>(values[9]);
+            ProsecnaOcena = double.Parse(values[10], CultureInfo.InvariantCulture);
         }
 
         public override string ToString()

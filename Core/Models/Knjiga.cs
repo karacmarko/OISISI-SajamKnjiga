@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using Core.Serialization;
 
 namespace Core.Models
 {
-    public class Knjiga
+    public class Knjiga : ISerializable
     {
         public int Id { get; set; }
         public string ISBN { get; set; } = string.Empty;
@@ -31,6 +33,33 @@ namespace Core.Models
             Cena = cena;
             BrojStrana = brojStrana;
             IzdavacId = izdavacId;
+        }
+
+        public string[] ToCSV()
+        {
+            return new string[]
+            {
+                Id.ToString(),
+                ISBN,
+                Naziv,
+                Zanr,
+                GodinaIzdanja.ToString(),
+                Cena.ToString(CultureInfo.InvariantCulture),
+                BrojStrana.ToString(),
+                IzdavacId.ToString()
+            };
+        }
+
+        public void FromCSV(string[] values)
+        {
+            Id = int.Parse(values[0]);
+            ISBN = values[1];
+            Naziv = values[2];
+            Zanr = values[3];
+            GodinaIzdanja = int.Parse(values[4]);
+            Cena = double.Parse(values[5], CultureInfo.InvariantCulture);
+            BrojStrana = int.Parse(values[6]);
+            IzdavacId = int.Parse(values[7]);
         }
 
         public override string ToString()

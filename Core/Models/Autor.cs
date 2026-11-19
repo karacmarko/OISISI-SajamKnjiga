@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using Core.Serialization;
 
 namespace Core.Models
 {
-    public class Autor
+    public class Autor : ISerializable
     {
         public int Id { get; set; }
         public string Ime { get; set; } = string.Empty;
@@ -32,6 +34,35 @@ namespace Core.Models
             Email = email;
             BrojLicneKarte = brojLicneKarte;
             GodineIskustva = godineIskustva;
+        }
+
+        public string[] ToCSV()
+        {
+            return new string[]
+            {
+                Id.ToString(),
+                Ime,
+                Prezime,
+                DatumRodjenja.ToString("dd.MM.yyyy.", CultureInfo.InvariantCulture),
+                AdresaId.ToString(),
+                Telefon,
+                Email,
+                BrojLicneKarte,
+                GodineIskustva.ToString()
+            };
+        }
+
+        public void FromCSV(string[] values)
+        {
+            Id = int.Parse(values[0]);
+            Ime = values[1];
+            Prezime = values[2];
+            DatumRodjenja = DateTime.ParseExact(values[3], "dd.MM.yyyy.", CultureInfo.InvariantCulture);
+            AdresaId = int.Parse(values[4]);
+            Telefon = values[5];
+            Email = values[6];
+            BrojLicneKarte = values[7];
+            GodineIskustva = int.Parse(values[8]);
         }
 
         public override string ToString()
