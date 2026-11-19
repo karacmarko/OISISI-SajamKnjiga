@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Core.Models
+{
+    public class Autor
+    {
+        public int Id { get; set; }
+        public string Ime { get; set; } = string.Empty;
+        public string Prezime { get; set; } = string.Empty;
+        public DateTime DatumRodjenja { get; set; }
+        public int AdresaId { get; set; }
+        public Adresa? Adresa { get; set; }
+        public string Telefon { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string BrojLicneKarte { get; set; } = string.Empty;
+        public int GodineIskustva { get; set; }
+
+        public List<Knjiga> Knjige { get; set; } = new List<Knjiga>();
+
+        public Autor() { }
+
+        public Autor(int id, string ime, string prezime, DateTime datumRodjenja, int adresaId,
+            string telefon, string email, string brojLicneKarte, int godineIskustva)
+        {
+            Id = id;
+            Ime = ime;
+            Prezime = prezime;
+            DatumRodjenja = datumRodjenja;
+            AdresaId = adresaId;
+            Telefon = telefon;
+            Email = email;
+            BrojLicneKarte = brojLicneKarte;
+            GodineIskustva = godineIskustva;
+        }
+
+        public override string ToString()
+        {
+            return $"[{Id}] {Ime} {Prezime} | LK: {BrojLicneKarte} | Rođen: {DatumRodjenja:dd.MM.yyyy.} | " +
+                   $"Iskustvo: {GodineIskustva} god. | Tel: {Telefon} | Email: {Email} | AdresaId: {AdresaId}";
+        }
+    }
+}
